@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
                              .collect(Collectors.toList());
     }
 
-    User getUser( String username ) {
+    public User getUser( String username ) {
         return userRepository.findByLogin(username);
     }
 }

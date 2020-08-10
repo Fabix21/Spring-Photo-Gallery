@@ -3,6 +3,7 @@ package com.fhoszowski.photogallery.controllers;
 import com.fhoszowski.photogallery.models.Image;
 import com.fhoszowski.photogallery.repositories.ImageRepository;
 import com.fhoszowski.photogallery.services.ImageService;
+import com.fhoszowski.photogallery.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class GalleryController {
@@ -20,6 +22,18 @@ public class GalleryController {
     @Autowired
     ImageService imageService;
 
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/availableGalleries")
+    public String userAvailableGalleries( Principal principal ) {
+        List<String> availableGalleries = userService.getUser(principal.getName())
+                                                     .getGalleries()
+                                                     .stream()
+                                                     .map(gallery -> gallery.getGalleryname())
+                                                     .collect(Collectors.toList());
+        return "availableGalleries";
+    }
 
     @GetMapping("/gallery")
     public String path( Model model,Principal principal ) {
