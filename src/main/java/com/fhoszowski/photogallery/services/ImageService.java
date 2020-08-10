@@ -62,22 +62,22 @@ public class ImageService {
     }
 
     public void saveImage( MultipartFile file,String selectedGallery ) throws IOException {
-
+        String UPLOAD_DIR = "./media/";
+        Files.createDirectories(Paths.get(UPLOAD_DIR));
         // normalize the file path
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         // save the file on the local file system
 
         // for aws disabled!
 
-        String UPLOAD_DIR = "./src/main/webapp/WEB-INF/images/";
         Path path = Paths.get(UPLOAD_DIR + fileName);
         Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 
         //Store image to DB
         Image image = Image
                 .builder()
-                .image(file.getBytes())
-                .path("images/" + fileName)
+                //.image(file.getBytes())
+                .path("media/" + fileName)
                 .gallery(galleryRepository.findByGalleryname(selectedGallery))
                 .build();
 

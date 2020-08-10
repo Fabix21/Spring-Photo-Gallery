@@ -56,13 +56,12 @@ public class GalleryAdminController {
             attributes.addFlashAttribute("message","Wybierz zdjecie do uploadu");
             return "redirect:/addPhoto";
         }
-        /* check for maximum allowed photo size
-        AWS ONLY
+
         if (image.getSize() > 1000000) {
             attributes.addFlashAttribute("message","Zdjęcie jest za duże, maksymalna dopuszczałna wartość to 1MB !");
             return "redirect:/addPhoto";
         }
-        */
+
         imageService.saveImage(image,selectedUser);
 
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
