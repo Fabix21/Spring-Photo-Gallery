@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 public class UserRESTController {
 
@@ -16,8 +14,8 @@ public class UserRESTController {
     UserService userService;
 
     @PostMapping(path = "/addUser")
-    public List<User> addUser( @RequestBody User newUser ) {
+    public String addUser( @RequestBody User newUser ) {
         userService.addUser(newUser);
-        return userService.getUsers();
+        return "User has been successfully added!";
     }
 }
