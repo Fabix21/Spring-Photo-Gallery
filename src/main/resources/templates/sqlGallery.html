@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Galeria użytkownika <span th:remove="tag" th:text="${username}"></span></title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css" rel="stylesheet"/>
+    <link href="/css/grid-gallery.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <a class="btn btn-outline-danger" th:href="@{/logout}">Wyloguj</a>
+    </form>
+</nav>
+
+<section class="gallery-block grid-gallery">
+    <div class="container">
+        <div class="heading">
+            <h2>Galeria użytkownika <p th:text="${username}"></p></h2>
+        </div>
+        <div class="row">
+            <tr th:each="img: ${imgs}">
+                <div class="col-md-6 col-lg-4 item">
+                    <img class="img-fluid image scale-on-hover" th:src="'data:image/jpeg;base64,' + ${img}">
+                </div>
+            </tr>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script>
+    baguetteBox.run('.grid-gallery', {animation: 'slideIn'});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Panel Administratora</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <a class="btn btn-outline-danger" th:href="@{/logout}">Wyloguj</a>
+        <a class="btn btn-outline-success" th:href="@{/newGallery}">Dodaj Galerie</a>
+    </form>
+</nav>
+<section class="my-5">
+    <div class="form-group">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <p>
+                    <h2>Udostępnij zdjęcie</h2></p>
+                    <p class="alert alert-primary" th:if="${message ne null}" th:text="${message}"></p>
+                    <form enctype="multipart/form-data" method="post" th:action="@{/upload}">
+                        <label>Wybierz galerie do której chcesz wyslać zdjęcia</label>
+                        <select class="form-control" id="selectedUser" name="selectedUser">
+                            <tr th:each="user: ${usersLogin}">
+                                <option>
+                                    <p th:text="${user}"></p>
+                                </option>
+                            </tr>
+                        </select>
+                        <label>Wybierz zdjęcie</label>
+                        <div class="form-group">
+                            <input class="form-control-file" name="file" type="file">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Wyślij!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
