@@ -1,5 +1,6 @@
 package com.fhoszowski.photogallery.services;
 
+import com.fhoszowski.photogallery.exceptions.UsernameTakenException;
 import com.fhoszowski.photogallery.models.User;
 import com.fhoszowski.photogallery.repositories.UserRepository;
 import com.fhoszowski.photogallery.security.UserPrincipal;
@@ -34,10 +35,23 @@ public class UserService implements UserDetailsService {
     }
 
     public void addUser( User newUser ) {
-        String password = newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.setPassword(password);
-        userRepository.save(newUser);
+        if (userRepository.findByLogin(newUser.getLogin()) == null) {
+            String password = newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            newUser.setPassword(password);
+            userRepository.save(newUser);
+        } else throw new UsernameTakenException();
     }
+
+         /* Dunno which is faster
+        if(userRepository != null) {
+              userRepository.findAll()
+                            .stream()
+                            .filter(user -> user.getLogin().equals(newUser.getLogin()))
+                            .findAny()
+                            .ifPresent(user ->{ throw new UsernameTakenException();});
+        }
+        */
+
 
     public List<User> getUsers() {
         return userRepository.findAll();
