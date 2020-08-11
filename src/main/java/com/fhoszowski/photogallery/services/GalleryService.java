@@ -1,6 +1,7 @@
 package com.fhoszowski.photogallery.services;
 
 import com.fhoszowski.photogallery.models.Gallery;
+import com.fhoszowski.photogallery.models.Image;
 import com.fhoszowski.photogallery.repositories.GalleryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,11 +38,12 @@ public class GalleryService {
         return galleryRepository.findByGalleryname(name);
     }
 
-    public List<String> getGalleriesNamesByUsername( String username ) {
-        return userService.getUser(username)
-                          .getGalleries()
-                          .stream()
-                          .map(Gallery::getGalleryname)
-                          .collect(Collectors.toList());
+
+    public List<String> getImagesFromGallery( String selectedGallery ) {
+        return getGallery(selectedGallery)
+                .getImages()
+                .stream()
+                .map(Image::getPath)
+                .collect(Collectors.toList());
     }
 }
