@@ -18,6 +18,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
@@ -34,11 +35,11 @@ public class ImageService {
     public List<String> getImagesLinksByUsername( Principal username ) {
 
         List<Image> resultImage = getImagesByUsername(username);
-        List<String> listOfImagesLinks = new ArrayList<>();
-        for (Image image : resultImage) {
-            listOfImagesLinks.add(image.getPath());
-        }
-        return listOfImagesLinks;
+        List<String> pathsOfImages = resultImage
+                .stream()
+                .map(image -> image.getPath())
+                .collect(Collectors.toList());
+        return pathsOfImages;
     }
 
     public List<Image> getImagesByUsername( Principal username ) {
@@ -62,7 +63,7 @@ public class ImageService {
     }
 
     public void saveImage( MultipartFile file,String selectedGallery ) throws IOException {
-        String UPLOAD_DIR = "./media/";
+        String UPLOAD_DIR = "media/";
         Files.createDirectories(Paths.get(UPLOAD_DIR));
         // normalize the file path
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
