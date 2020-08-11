@@ -18,12 +18,10 @@ public class GalleryService {
     UserService userService;
 
     public List<String> getGalleriesNames() {
-        return galleryRepository
-                .findAll()
-                .stream()
-                .map(gallery -> gallery.getGalleryname())
-                .collect(Collectors.toList());
-
+        return galleryRepository.findAll()
+                                .stream()
+                                .map(Gallery::getGalleryname)
+                                .collect(Collectors.toList());
     }
 
     public void createNewGallery( String galleryName,String selectedUser ) {
@@ -35,8 +33,15 @@ public class GalleryService {
         galleryRepository.save(gallery);
     }
 
-
     public Gallery getGallery( String name ) {
         return galleryRepository.findByGalleryname(name);
+    }
+
+    public List<String> getGalleriesNamesByUsername( String username ) {
+        return userService.getUser(username)
+                          .getGalleries()
+                          .stream()
+                          .map(Gallery::getGalleryname)
+                          .collect(Collectors.toList());
     }
 }
