@@ -1,11 +1,13 @@
 .gallery-block.grid-gallery {
     padding-bottom: 60px;
     padding-top: 60px;
+    font-weight: bold;
 }
 
 .gallery-block.grid-gallery .heading {
     margin-bottom: 50px;
     text-align: center;
+
 }
 
 .gallery-block.grid-gallery .heading h2 {

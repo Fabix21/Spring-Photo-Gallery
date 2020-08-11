@@ -37,6 +37,7 @@ public class GalleryController {
                                                      .stream()
                                                      .map(gallery -> gallery.getGalleryname())
                                                      .collect(Collectors.toList());
+
         model.addAttribute("availableGalleries",availableGalleries);
         model.addAttribute("username",principal.getName());
         return "availableGalleries";
@@ -45,13 +46,8 @@ public class GalleryController {
     @GetMapping("/gallery/{galleryName}")
     public String path( Model model,Principal principal,@PathVariable("galleryName") String selectedGallery ) {
 
-        List<String> list = galleryService.getGallery(selectedGallery)
-                                          .getImages()
-                                          .stream()
-                                          .map(image -> image.getPath())
-                                          .collect(Collectors.toList());
-
-        model.addAttribute("imgs",list);
+        List<String> galleries = galleryService.getGalleriesNamesByUsername(principal.getName());
+        model.addAttribute("imgs",galleries);
         model.addAttribute("username",principal.getName());
         return "gallery";
     }
