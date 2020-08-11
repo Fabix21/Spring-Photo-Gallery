@@ -2,12 +2,14 @@ package com.fhoszowski.photogallery.controllers;
 
 import com.fhoszowski.photogallery.models.Image;
 import com.fhoszowski.photogallery.repositories.ImageRepository;
+import com.fhoszowski.photogallery.services.GalleryService;
 import com.fhoszowski.photogallery.services.ImageService;
 import com.fhoszowski.photogallery.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,20 +27,31 @@ public class GalleryController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    GalleryService galleryService;
+
     @GetMapping("/availableGalleries")
-    public String userAvailableGalleries( Principal principal ) {
+    public String userAvailableGalleries( Model model,Principal principal ) {
         List<String> availableGalleries = userService.getUser(principal.getName())
                                                      .getGalleries()
                                                      .stream()
                                                      .map(gallery -> gallery.getGalleryname())
                                                      .collect(Collectors.toList());
+        model.addAttribute("availableGalleries",availableGalleries);
+        model.addAttribute("username",principal.getName());
         return "availableGalleries";
     }
 
-    @GetMapping("/gallery")
-    public String path( Model model,Principal principal ) {
+    @GetMapping("/gallery/{galleryName}")
+    public String path( Model model,Principal principal,@PathVariable("galleryName") String selectedGallery ) {
 
-        model.addAttribute("imgs",imageService.getImagesLinksByUsername(principal));
+        List<String> list = galleryService.getGallery(selectedGallery)
+                                          .getImages()
+                                          .stream()
+                                          .map(image -> image.getPath())
+                                          .collect(Collectors.toList());
+
+        model.addAttribute("imgs",list);
         model.addAttribute("username",principal.getName());
         return "gallery";
     }
