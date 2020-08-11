@@ -23,10 +23,13 @@ Login: user2
 Password: user2
 role: USER
 ```
-``
-user1: User1_Gallery, User1_Gallery2
-user2: User2_Gallery
-``
+
+### Available galleries
+```
+user1: Cats, Dogs
+
+user2: Birds
+```
 ## Running application
 
 Clone it from repo and build with gradle.
