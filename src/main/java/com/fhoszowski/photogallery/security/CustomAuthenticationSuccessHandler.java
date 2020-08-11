@@ -20,7 +20,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (roles.contains("ROLE_ADMIN")) {
             httpServletResponse.sendRedirect("/addPhoto");
         } else {
-            httpServletResponse.sendRedirect("/gallery");
+            httpServletResponse.sendRedirect("/availableGalleries");
         }
     }
 }
