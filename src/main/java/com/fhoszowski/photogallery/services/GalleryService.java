@@ -34,4 +34,9 @@ public class GalleryService {
 
         galleryRepository.save(gallery);
     }
+
+
+    public Gallery getGallery( String name ) {
+        return galleryRepository.findByGalleryname(name);
+    }
 }
