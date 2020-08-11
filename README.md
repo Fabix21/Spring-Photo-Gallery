@@ -36,7 +36,7 @@ Clone it from repo and build with gradle.
 ```
 * Running app
 ```
-./gradlew bootEun
+./gradlew bootRun
 ```
 ## Available endpoints
 * http://localhost:8080/addUser
@@ -73,9 +73,13 @@ Endpoint allowing user with `ADMIN` role to upload photo to database.
 
 Endpoint allowing user with `ADMIN` role to create new galleries.
 
+* http://localhost:8080/availableGalleries
+
+Endpoint allowing the user to select a gallery to view photos.
+
 * http://localhost:8080/gallery
 
-Endpoint allowing users to view photos from all galleries uploaded by admin.
+Endpoint allowing user to view photos from gallery he chose.
 
 * http://localhost:8080/sqlGallery
 
