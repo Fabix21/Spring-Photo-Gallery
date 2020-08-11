@@ -31,7 +31,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User does not exist!");
         else
             return new UserPrincipal(user);
-
     }
 
     public void addUser( User newUser ) {
@@ -53,14 +52,10 @@ public class UserService implements UserDetailsService {
         */
 
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
-    }
-
     public List<String> getUsersLogin() {
         return userRepository.findAll()
                              .stream()
-                             .map(user -> user.getLogin())
+                             .map(User::getLogin)
                              .collect(Collectors.toList());
     }
 

@@ -46,8 +46,8 @@ public class GalleryController {
     @GetMapping("/gallery/{galleryName}")
     public String path( Model model,Principal principal,@PathVariable("galleryName") String selectedGallery ) {
 
-        List<String> galleries = galleryService.getGalleriesNamesByUsername(principal.getName());
-        model.addAttribute("imgs",galleries);
+        List<String> imagesFromGallery = galleryService.getImagesFromGallery(selectedGallery);
+        model.addAttribute("imgs",imagesFromGallery);
         model.addAttribute("username",principal.getName());
         return "gallery";
     }
