@@ -20,9 +20,7 @@
             <tr th:each="gallery: ${availableGalleries}">
                 <div class="col-md-6 col-lg-4 item" style="text-align: center">
                     <a th:href="'gallery/'+${gallery}">
-                        <input alt="Submit" height="128"
-                               src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/folder-blue-512.png"
-                               type="image" width="128">
+                        <input alt="Submit" height="128" src="/assets/folder_icon.png" type="image" width="128">
                     </a>
                     <p><span th:remove="tag" th:text="${gallery}"></span></p>
                 </div>
