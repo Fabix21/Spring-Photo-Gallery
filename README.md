@@ -82,7 +82,7 @@ Endpoint allowing the user to select a gallery to view photos.
 
 * http://localhost:8080/gallery
 
-Endpoint allowing user to view photos from gallery he chose.
+Endpoint allowing user to view photos from gallery user chose.
 
 * http://localhost:8080/sqlGallery
 
