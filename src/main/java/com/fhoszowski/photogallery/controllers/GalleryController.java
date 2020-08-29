@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class GalleryController {
@@ -32,12 +31,7 @@ public class GalleryController {
 
     @GetMapping("/availableGalleries")
     public String userAvailableGalleries( Model model,Principal principal ) {
-        List<String> availableGalleries = userService.getUser(principal.getName())
-                                                     .getGalleries()
-                                                     .stream()
-                                                     .map(gallery -> gallery.getGalleryname())
-                                                     .collect(Collectors.toList());
-
+        List<String> availableGalleries = userService.getAvailableGalleriesNames(principal);
         model.addAttribute("availableGalleries",availableGalleries);
         model.addAttribute("username",principal.getName());
         return "availableGalleries";

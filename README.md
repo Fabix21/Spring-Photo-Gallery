@@ -9,6 +9,11 @@ Application was deployed on AWS using Elastic Beanstalk and RDS service (Postgre
 
 For testing purposes, users and galleries have already been created.
 
+Dockerized version of app using ECS and AWS Fargate 
+(Different Database)
+
+* http://18.234.99.67/
+
 ### Test users
 ```
 Login: ADMIN
@@ -40,7 +45,9 @@ Clone it from repo and build with gradle.
 * Running app
 ```
 ./gradlew bootRun
-```
+master
+
+
 ## Available endpoints
 * http://localhost:8080/addUser
 

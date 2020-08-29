@@ -36,3 +36,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootJar {
+    baseName = 'spring-photo-gallery'
+    version= ""
+}
