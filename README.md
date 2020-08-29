@@ -28,10 +28,13 @@ Login: user2
 Password: user2
 role: USER
 ```
-``
-user1: User1_Gallery, User1_Gallery2
-user2: User2_Gallery
-``
+
+### Available galleries
+```
+user1: Cats, Dogs
+
+user2: Birds
+```
 ## Running application
 
 Clone it from repo and build with gradle.
@@ -42,13 +45,8 @@ Clone it from repo and build with gradle.
 * Running app
 ```
 ./gradlew bootRun
-```
-Or use Docker
-* Using Docker
+master
 
-```
-docker run -p 8080:80 fabix21/spring-photo-gallery:latest
-```
 
 ## Available endpoints
 * http://localhost:8080/addUser
@@ -85,9 +83,13 @@ Endpoint allowing user with `ADMIN` role to upload photo to database.
 
 Endpoint allowing user with `ADMIN` role to create new galleries.
 
+* http://localhost:8080/availableGalleries
+
+Endpoint allowing the user to select a gallery to view photos.
+
 * http://localhost:8080/gallery
 
-Endpoint allowing users to view photos from all galleries uploaded by admin.
+Endpoint allowing user to view photos from gallery user chose.
 
 * http://localhost:8080/sqlGallery
 
