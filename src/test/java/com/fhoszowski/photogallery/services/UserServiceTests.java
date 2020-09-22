@@ -1,5 +1,6 @@
 package com.fhoszowski.photogallery.services;
 
+import com.fhoszowski.photogallery.models.Gallery;
 import com.fhoszowski.photogallery.models.User;
 import com.fhoszowski.photogallery.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ class UserServiceTests {
     User user1;
     User admin;
 
+    @Mock
+    Principal principal;
 
     @BeforeEach
     void setUp() {
@@ -38,6 +42,11 @@ class UserServiceTests {
         user1.setLogin("user1");
         user1.setPassword("password");
         user1.setRole("USER");
+
+        List<Gallery> gallery = new ArrayList<>();
+        gallery.add(Gallery.builder().galleryname("Dogs").user(user).build());
+        gallery.add(Gallery.builder().galleryname("Cats").user(user).build());
+        user.setGalleries(gallery);
 
 
         admin = new User();
@@ -80,7 +89,27 @@ class UserServiceTests {
         //when
         when(userRepository.findAll()).thenReturn(users);
         //then
-        assertEquals(userService.getUsersLogin(),usersLogin,"should contains list of users login");
+        assertEquals(usersLogin,userService.getUsersLogin(),"should contain list of users login");
+    }
+
+    @Test
+    void shouldGetUsersGalleries() {
+        //given
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(user1);
+
+        List<String> userGalleries = new ArrayList<>();
+        userGalleries.add("Dogs");
+        userGalleries.add("Cats");
+
+        //when
+        when(principal.getName()).thenReturn("user");
+        when(userService.getUser("user")).thenReturn(user);
+
+        //then
+        assertEquals(userGalleries,userService.getAvailableGalleriesNames(principal),"should contain list of user galleries");
+
     }
 }
 
