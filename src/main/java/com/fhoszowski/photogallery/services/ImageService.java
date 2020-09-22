@@ -32,15 +32,6 @@ public class ImageService {
     @Autowired
     UserService userService;
 
-    public List<String> getImagesLinksByUsername( Principal username ) {
-
-        List<Image> resultImage = getImagesByUsername(username);
-        List<String> pathsOfImages = resultImage
-                .stream()
-                .map(image -> image.getPath())
-                .collect(Collectors.toList());
-        return pathsOfImages;
-    }
 
     public List<Image> getImagesByUsername( Principal username ) {
 
@@ -49,36 +40,29 @@ public class ImageService {
         for (Gallery gallery : galleries) {
             imagesFromAllGalleries.addAll(gallery.getImages());
         }
-
         return imagesFromAllGalleries;
     }
 
     public List<String> convertToBase64( List<Image> images ) {
-        List<String> listOfImages = new ArrayList<>();
-        for (Image image : images) {
-            byte[] resultImage = image.getImage();
-            listOfImages.add(Base64.getEncoder().encodeToString(resultImage));
-        }
-        return listOfImages;
+        return images.stream()
+                     .map(image -> Base64.getEncoder().encodeToString(image.getImage()))
+                     .collect(Collectors.toList());
     }
 
     public void saveImage( MultipartFile file,String selectedGallery ) throws IOException {
-        String UPLOAD_DIR = "media/";
-        Files.createDirectories(Paths.get(UPLOAD_DIR));
-        // normalize the file path
+        final String UPLOAD_DIR = "media/";
+
+        Files.createDirectories(Paths.get(UPLOAD_DIR + selectedGallery.concat("/")));
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        // save the file on the local file system
 
-        // for aws disabled!
-
-        Path path = Paths.get(UPLOAD_DIR + fileName);
+        Path path = Paths.get(UPLOAD_DIR + selectedGallery.concat("/") + fileName);
         Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
 
         //Store image to DB
         Image image = Image
                 .builder()
                 //.image(file.getBytes())
-                .path("media/" + fileName)
+                .path("media/" + selectedGallery.concat("/") + fileName)
                 .gallery(galleryRepository.findByGalleryname(selectedGallery))
                 .build();
 

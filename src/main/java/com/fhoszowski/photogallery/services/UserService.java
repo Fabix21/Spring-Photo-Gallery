@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,5 +62,13 @@ public class UserService implements UserDetailsService {
 
     public User getUser( String username ) {
         return userRepository.findByLogin(username);
+    }
+
+    public List<String> getAvailableGalleriesNames( Principal principal ) {
+        return getUser(principal.getName())
+                .getGalleries()
+                .stream()
+                .map(gallery -> gallery.getGalleryname())
+                .collect(Collectors.toList());
     }
 }

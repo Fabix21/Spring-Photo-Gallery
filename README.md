@@ -4,10 +4,9 @@ Template engine themyleaf, Bootstrap for CSS and HTML styling.
 
 ## Live View
 
-Application was deployed on AWS using Elastic Beanstalk and RDS service (PostgreSQL database)
-* http://photogallery.us-east-1.elasticbeanstalk.com/
+Application was deployed on AWS using ECS with AWS Fargate and RDS service (PostgreSQL database)
 
-For testing purposes, users and galleries have already been created.
+* http://18.234.99.67/
 
 ### Test users
 ```
@@ -23,10 +22,11 @@ Login: user2
 Password: user2
 role: USER
 ```
-``
-user1: User1_Gallery, User1_Gallery2
-user2: User2_Gallery
-``
+```
+user1: Cats, Dogs
+
+user2: Birds
+```
 ## Running application
 
 Clone it from repo and build with gradle.
@@ -36,8 +36,15 @@ Clone it from repo and build with gradle.
 ```
 * Running app
 ```
-./gradlew bootEun
+./gradlew bootRun
 ```
+Or use Docker
+* Using Docker
+
+```
+docker run -p 8080:80 fabix21/spring-photo-gallery:latest
+```
+
 ## Available endpoints
 * http://localhost:8080/addUser
 
