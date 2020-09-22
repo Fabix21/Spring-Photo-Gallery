@@ -20,7 +20,7 @@ class UserServiceTests {
     UserService userService;
 
     User user;
-
+    User admin;
 
     @BeforeEach
     void setUp() {
@@ -29,17 +29,30 @@ class UserServiceTests {
         user.setPassword("password");
         user.setRole("USER");
 
+        admin = new User();
+        admin.setLogin("admin");
+        admin.setPassword("password");
+        admin.setRole("ADMIN");
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     void shouldGetUser() {
         //given -> setUp
-
         //when
         when(userRepository.findByLogin("user")).thenReturn(user);
         //then
-        assertEquals(userService.getUser("user").getLogin(),"user");
+        assertEquals("user",userService.getUser("user").getLogin(),"should add user");
+
+    }
+
+    @Test
+    void shouldHaveAdminRole() {
+        //given -> setUp
+        //when
+        when(userRepository.findByLogin("admin")).thenReturn(admin);
+        //then
+        assertEquals("ADMIN",userService.getUser("admin").getRole(),"user should have admin role");
 
     }
 
