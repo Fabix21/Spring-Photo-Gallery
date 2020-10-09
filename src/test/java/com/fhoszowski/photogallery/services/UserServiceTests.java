@@ -58,6 +58,7 @@ class UserServiceTests {
         MockitoAnnotations.initMocks(this);
     }
 
+
     @Test
     void shouldGetUser() {
         //given -> setUp
@@ -77,8 +78,8 @@ class UserServiceTests {
         //when
         when(userRepository.findByLogin("user")).thenReturn(null);
         when(userRepository.findByLogin("user")).thenReturn(user);
-        //then
 
+        //then
         assertThrows(UsernameTakenException.class,() -> {
             userService.addUser(user);
             userService.addUser(usernameTaken);
