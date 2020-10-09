@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -16,15 +17,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class UserServiceTests {
 
     @Mock
     UserRepository userRepository;
-
     @Mock
     Principal principal;
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     UserService userService;
@@ -58,6 +61,15 @@ class UserServiceTests {
         MockitoAnnotations.initMocks(this);
     }
 
+    @Test
+    void shouldAddUser() {
+        //given -> setup
+        //when
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        //then
+        userService.addUser(user);
+        verify(userRepository,times(1)).save(user);
+    }
 
     @Test
     void shouldGetUser() {
@@ -92,6 +104,7 @@ class UserServiceTests {
         //given -> setUp
         //when
         when(userRepository.findByLogin("admin")).thenReturn(admin);
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         //then
         assertEquals("ADMIN",userService.getUser("admin").getRole(),"user should have admin role");
     }
