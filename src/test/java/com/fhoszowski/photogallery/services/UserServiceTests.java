@@ -1,5 +1,6 @@
 package com.fhoszowski.photogallery.services;
 
+import com.fhoszowski.photogallery.exceptions.UsernameTakenException;
 import com.fhoszowski.photogallery.models.Gallery;
 import com.fhoszowski.photogallery.models.User;
 import com.fhoszowski.photogallery.repositories.UserRepository;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class UserServiceTests {
@@ -21,15 +23,15 @@ class UserServiceTests {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    Principal principal;
+
     @InjectMocks
     UserService userService;
 
     User user;
     User user1;
     User admin;
-
-    @Mock
-    Principal principal;
 
     @BeforeEach
     void setUp() {
@@ -63,8 +65,26 @@ class UserServiceTests {
         when(userRepository.findByLogin("user")).thenReturn(user);
         //then
         assertEquals("user",userService.getUser("user").getLogin(),"should add user");
-
     }
+
+    @Test
+    void shouldThrowUsernameTakenException() {
+        //given
+        User usernameTaken = new User();
+        usernameTaken.setLogin("user");
+        usernameTaken.setPassword("password");
+
+        //when
+        when(userRepository.findByLogin("user")).thenReturn(null);
+        when(userRepository.findByLogin("user")).thenReturn(user);
+        //then
+
+        assertThrows(UsernameTakenException.class,() -> {
+            userService.addUser(user);
+            userService.addUser(usernameTaken);
+        });
+    }
+
 
     @Test
     void shouldHaveAdminRole() {
@@ -73,7 +93,6 @@ class UserServiceTests {
         when(userRepository.findByLogin("admin")).thenReturn(admin);
         //then
         assertEquals("ADMIN",userService.getUser("admin").getRole(),"user should have admin role");
-
     }
 
     @Test
@@ -109,7 +128,6 @@ class UserServiceTests {
 
         //then
         assertEquals(userGalleries,userService.getAvailableGalleriesNames(principal),"should contain list of user galleries");
-
     }
 }
 

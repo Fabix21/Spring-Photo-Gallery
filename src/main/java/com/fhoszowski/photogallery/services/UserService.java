@@ -42,17 +42,6 @@ public class UserService implements UserDetailsService {
         } else throw new UsernameTakenException();
     }
 
-         /* Dunno which is faster
-        if(userRepository != null) {
-              userRepository.findAll()
-                            .stream()
-                            .filter(user -> user.getLogin().equals(newUser.getLogin()))
-                            .findAny()
-                            .ifPresent(user ->{ throw new UsernameTakenException();});
-        }
-        */
-
-
     public List<String> getUsersLogin() {
         return userRepository.findAll()
                              .stream()
