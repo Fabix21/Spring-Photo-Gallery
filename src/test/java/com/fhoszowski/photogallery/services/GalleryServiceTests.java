@@ -1,6 +1,7 @@
 package com.fhoszowski.photogallery.services;
 
 import com.fhoszowski.photogallery.models.Gallery;
+import com.fhoszowski.photogallery.models.User;
 import com.fhoszowski.photogallery.repositories.GalleryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,15 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class GalleryServiceTests {
     @InjectMocks
     GalleryService galleryService;
     @Mock
     GalleryRepository galleryRepository;
-
+    @Mock
+    UserService userService;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -49,13 +52,25 @@ class GalleryServiceTests {
         List<String> galleriesNames = new ArrayList<>();
         galleriesNames.add("galleryOne");
         galleriesNames.add("galleryTwo");
-
         //when
         when(galleryRepository.findAll()).thenReturn(galleries);
         //then
         assertEquals(galleriesNames,galleryService.getGalleriesNames());
+    }
 
-
+    @Test
+    void shouldCreateNewGallery() {
+        //given
+        User user = new User();
+        user.setLogin("user");
+        Gallery galleryOne = Gallery.builder().galleryname("galleryOne").user(user).build();
+        //when
+        when(galleryRepository.save(any(Gallery.class))).thenReturn(galleryOne);
+        when(userService.getUser("user")).thenReturn(user);
+        when(galleryService.getGallery("galleryOne")).thenReturn(galleryOne);
+        //then
+        galleryService.createNewGallery("galleryOne","user");
+        verify(galleryRepository,times(1)).save(galleryOne);
     }
 
 }
