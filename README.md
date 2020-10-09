@@ -2,31 +2,8 @@
 Photo Gallery using Spring Boot and PostgreSQL
 Template engine themyleaf, Bootstrap for CSS and HTML styling.
 
-## Live View
 
-Application was deployed on AWS using ECS with AWS Fargate and RDS service (PostgreSQL database)
 
-* http://18.234.99.67/
-
-### Test users
-```
-Login: ADMIN
-Password: ADMIN
-role: ADMIN
-
-Login: user1
-Password: user1
-role: USER
-
-Login: user2
-Password: user2
-role: USER
-```
-```
-user1: Cats, Dogs
-
-user2: Birds
-```
 ## Running application
 
 Clone it from repo and build with gradle.
